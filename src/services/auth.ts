@@ -5,7 +5,7 @@ import { signToken } from "../utils/jwt";
 import { loginSchema } from "../validation/auth";
 
 // Add profile parameter to registerUser function
-export async function registerUser(email: string, password: string, profile: string) {
+export async function registerUser(email: string, password: string, profile: string, role: any) {
   if (!email.match(/@/) || password.length < 6) {
     throw new Error("Invalid email or password");
   }
@@ -16,7 +16,8 @@ export async function registerUser(email: string, password: string, profile: str
     data: { 
       email, 
       password: hashed,
-      profile
+      profile,
+      role,
     }
   });
 

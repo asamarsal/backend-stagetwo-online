@@ -20,10 +20,33 @@ router.post("/login", handleLogin);
 
 router.post("/suppliers/register", handleRegisterSuppliers);
 router.post("/suppliers/login", handleLoginSuppliers);
+router.get("/me", authenticate, async (req: Request, res: Response): Promise<any> => {
+  try {
+    const userId = (req as any).user.id;
+    
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        profile: true
+      }
+    });
 
-router.get("/me", authenticate, (req, res) => {
-  res.json({ message: "Protected route" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ 
+      message: "Get user profile success",
+      user 
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
 });
+
 
 router.get("/suppliers/products", authenticateSuppliers, async (req, res) => {
   try {

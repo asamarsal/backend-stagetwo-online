@@ -1,4 +1,3 @@
-// src/controllers/auth.controller.ts
 import { Request, Response, NextFunction } from "express";
 import { registerUser, loginUser , loginSupplier, registerSupplier} from "../services/auth";
 import { prisma } from "../prisma/client";
@@ -18,9 +17,9 @@ export async function handleRegister(req: Request, res: Response) {
       return;
     }
 
-    const { email, password } = req.body;
+    const { email, password, role} = req.body;
     const profile = req.file?.filename;
-    const user = await registerUser(email, password, profile);
+    const user = await registerUser(email, password, profile, role);
 
     res.status(201).json({ message: "User registered", user });
   } catch (err: any) {
