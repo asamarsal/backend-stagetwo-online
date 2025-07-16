@@ -30,7 +30,8 @@ router.get("/me", authenticate, async (req: Request, res: Response): Promise<any
         id: true,
         email: true,
         role: true,
-        profile: true
+        profile: true,
+        coin: true
       }
     });
 
@@ -41,6 +42,34 @@ router.get("/me", authenticate, async (req: Request, res: Response): Promise<any
     res.json({ 
       message: "Get user profile success",
       user 
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.patch("/coins", authenticate, async (req: Request, res: Response): Promise<any> => {
+  try {
+    const userId = (req as any).user.id;
+    const { amount } = req.body;
+
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        coin: {
+          increment: amount
+        }
+      },
+      select: {
+        id: true,
+        email: true,
+        coin: true
+      }
+    });
+
+    res.json({
+      message: "Coins updated successfully",
+      user
     });
   } catch (err: any) {
     res.status(500).json({ message: err.message });

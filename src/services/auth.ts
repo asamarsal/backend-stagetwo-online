@@ -18,13 +18,15 @@ export async function registerUser(email: string, password: string, profile: str
       password: hashed,
       profile: 'user',
       role,
+      coin: 0
     }
   });
 
   return { 
     id: user.id, 
     email: user.email,
-    profile: user.profile
+    profile: user.profile,
+    coin: user.coin
   };
 }
 

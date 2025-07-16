@@ -20,6 +20,7 @@ model User {
   role     String @default("user")
   profile  String?
   products Product[]
+  coin     Int    @default(0)
 }
 
 model Supplier {
