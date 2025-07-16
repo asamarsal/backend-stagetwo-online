@@ -76,7 +76,7 @@ export async function addProduct(req: Request, res: Response): Promise<void> {
         price: parseFloat(req.body.price),
         stock: parseInt(req.body.stock) || 0,
         photo: req.file?.filename,
-        supplierId: user.id // Gunakan user.id sebagai supplierId
+        supplierId: user.id
       }
     });
 
