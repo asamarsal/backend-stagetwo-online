@@ -124,7 +124,7 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
     });
 
     res.json({ 
-      message: "Product updated successfully", 
+      message: "Product updated success", 
       product 
     });
   } catch (err: any) {

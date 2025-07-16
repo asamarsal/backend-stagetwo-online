@@ -47,6 +47,30 @@ router.get("/me", authenticate, async (req: Request, res: Response): Promise<any
   }
 });
 
+router.get("/products", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      include: {
+        supplier: {
+          select: {
+            email: true
+          }
+        }
+      },
+      orderBy: {
+        id: 'asc'
+      }
+    });
+    
+    res.json({ 
+      message: "Get all products success",
+      products 
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 router.get("/suppliers/products", authenticateSuppliers, async (req, res) => {
   try {
