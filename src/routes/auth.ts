@@ -50,6 +50,9 @@ router.get("/me", authenticate, async (req: Request, res: Response): Promise<any
 router.get("/products", async (req, res) => {
   try {
     const products = await prisma.product.findMany({
+      where: {
+        deletedAt: null
+      },
       include: {
         supplier: {
           select: {
@@ -103,8 +106,63 @@ router.get("/suppliers/products", authenticateSuppliers, async (req, res) => {
 
 
 // router.post("/products/add", authenticateSuppliers, addProduct);
-router.post("/products/add", limiter, authenticateSuppliers, uploadProduct.single("photo"), addProduct, handleUploadError);
+// Ganti authenticateSuppliers dengan authenticate
+router.post("/products/add", limiter, authenticate, uploadProduct.single("photo"), addProduct, handleUploadError);
 
 router.patch("/products/update/:id", authenticateSuppliers, authorizeSupplier, updateProduct);
 
+router.get("/deleted", authenticate, async (req, res) => {
+  try {
+    const deletedProducts = await prisma.product.findMany({
+      where: {
+        deletedAt: {
+          not: null
+        }
+      },
+      include: {
+        supplier: {
+          select: {
+            email: true
+          }
+        }
+      }
+    });
+    
+    res.json({ 
+      message: "Get deleted products success",
+      products: deletedProducts 
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.delete("/products/:id", authenticate, async (req: Request, res: Response): Promise<any> => {
+  try {
+    const productId = parseInt(req.params.id);
+    const user = (req as any).user;
+
+    const product = await prisma.product.findUnique({
+      where: { id: productId }
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const deletedProduct = await prisma.product.update({
+      where: { id: productId },
+      data: {
+        deletedAt: new Date()
+      }
+    });
+
+    res.json({
+      message: "Product deleted successfully",
+      product: deletedProduct
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
 export default router;

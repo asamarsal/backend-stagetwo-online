@@ -23,7 +23,7 @@ export const uploadProduct = multer({
     },
     fileFilter: (req, file, cb) => {
 
-      const allowedTypes = ['.gif'];
+      const allowedTypes = ['.png'];
       const ext = path.extname(file.originalname).toLowerCase();
       
       if (file.fieldname === "photo" && allowedTypes.includes(ext)) {
@@ -32,7 +32,7 @@ export const uploadProduct = multer({
 
         return cb(new Error(JSON.stringify({ 
           status: 400,
-          message: "Format file tidak valid. Hanya .jpg yang diperbolehkan"
+          message: "Format file tidak valid. Hanya .png yang diperbolehkan"
         })));
       }
     }

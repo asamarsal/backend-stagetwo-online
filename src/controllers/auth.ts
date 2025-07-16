@@ -63,7 +63,7 @@ export async function handleLoginSuppliers(req: Request, res: Response) {
 
 export async function addProduct(req: Request, res: Response): Promise<void> {
   try {
-    const supplier = (req as any).user;
+    const user = (req as any).user;
 
     if (!req.file) {
       res.status(400).json({ message: "Harus menggunakan foto produk" });
@@ -76,7 +76,7 @@ export async function addProduct(req: Request, res: Response): Promise<void> {
         price: parseFloat(req.body.price),
         stock: parseInt(req.body.stock) || 0,
         photo: req.file?.filename,
-        supplierId: supplier.id
+        supplierId: user.id // Gunakan user.id sebagai supplierId
       }
     });
 

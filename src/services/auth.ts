@@ -16,7 +16,7 @@ export async function registerUser(email: string, password: string, profile: str
     data: { 
       email, 
       password: hashed,
-      profile,
+      profile: 'user',
       role,
     }
   });

@@ -19,6 +19,7 @@ model User {
   password String
   role     String @default("user")
   profile  String?
+  products Product[]
 }
 
 model Supplier {
@@ -26,7 +27,6 @@ model Supplier {
   email    String @unique
   password String
   role     String @default("user")
-  products Product[]
 }
 
 model Product {
@@ -36,8 +36,9 @@ model Product {
   stock       Int      @default(0)
   photo       String?
   createdAt   DateTime @default(now())
+  deletedAt   DateTime?
   supplierId  Int
-  supplier    Supplier @relation(fields: [supplierId], references: [id])
+  supplier    User @relation(fields: [supplierId], references: [id])
   detail      String?
 }
 
