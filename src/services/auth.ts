@@ -18,7 +18,6 @@ export async function registerUser(email: string, password: string, profile: str
       password: hashed,
       profile: 'user',
       role,
-      coin: 0
     }
   });
 
@@ -26,7 +25,6 @@ export async function registerUser(email: string, password: string, profile: str
     id: user.id, 
     email: user.email,
     profile: user.profile,
-    coin: user.coin
   };
 }
 
@@ -41,7 +39,7 @@ export async function loginUser(email: string, password: string) {
   return { token };
 }
 
-export async function registerSupplier(email: string, password: string) {
+export async function registerSupplier(email: string, password: string, profile: string, role: any) {
   const hashed = await bcrypt.hash(password, 10);
 
   const supplier = await prisma.supplier.create({

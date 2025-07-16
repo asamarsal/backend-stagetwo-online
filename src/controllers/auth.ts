@@ -76,7 +76,8 @@ export async function addProduct(req: Request, res: Response): Promise<void> {
         price: parseFloat(req.body.price),
         stock: parseInt(req.body.stock) || 0,
         photo: req.file?.filename,
-        supplierId: user.id
+        supplierId: user.id,
+        detail: req.body.detail || null
       }
     });
 
@@ -97,8 +98,8 @@ export async function handleRegisterSuppliers(req: Request, res: Response) {
       return;
     }
 
-    const { email, password } = req.body;
-    const supplier = await registerSupplier(email, password);
+    const { email, password, profile, role } = req.body;
+    const supplier = await registerSupplier(email, password, profile, role);
     res.status(201).json({ message: "Supplier registered", supplier });
   } catch (err: any) {
     res.status(400).json({ message: err.message });

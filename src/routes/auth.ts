@@ -18,11 +18,12 @@ const router = express.Router();
 router.post("/register", limiter, uploadProfile.single("profile"),(req: Request, res: Response, next: NextFunction): void => {handleRegister(req, res).catch(next);});
 router.post("/login", handleLogin);
 
-router.post("/suppliers/register", handleRegisterSuppliers);
+router.post("/suppliers/register", limiter, uploadProfile.single("profile"),(req: Request, res: Response, next: NextFunction): void => {handleRegisterSuppliers(req, res).catch(next);});
 router.post("/suppliers/login", handleLoginSuppliers);
 router.get("/me", authenticate, async (req: Request, res: Response): Promise<any> => {
   try {
     const userId = (req as any).user.id;
+    // const supplierId = (req as any).supplier.id;
     
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -35,13 +36,54 @@ router.get("/me", authenticate, async (req: Request, res: Response): Promise<any
       }
     });
 
+    // const supplier = await prisma.supplier.findUnique({
+    //   where: { id: supplierId },
+    //   select: {
+    //     id: true,
+    //     email: true,
+    //     role: true,
+    //     profile: true,
+    //   }
+    // });
+
     if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // if (!supplier) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
+
+    res.json({ 
+      message: "Get user profile success",
+      // supplier,
+      user
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/me-supplier", authenticateSuppliers, async (req: Request, res: Response): Promise<any> => {
+  try {
+    const supplierId = (req as any).supplier.id;
+    
+    const supplier = await prisma.supplier.findUnique({
+      where: { id: supplierId },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+      }
+    });
+
+    if (!supplier) {
       return res.status(404).json({ message: "User not found" });
     }
 
     res.json({ 
       message: "Get user profile success",
-      user 
+      supplier 
     });
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -169,6 +211,9 @@ router.get("/deleted", authenticate, async (req, res) => {
 router.delete("/products/:id", authenticate, async (req: Request, res: Response): Promise<any> => {
   try {
     const productId = parseInt(req.params.id);
+    if (isNaN(productId)) {
+      return res.status(400).json({ message: "Invalid product id" });
+    }
     const user = (req as any).user;
 
     const product = await prisma.product.findUnique({

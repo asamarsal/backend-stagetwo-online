@@ -1,8 +1,8 @@
 import cors from "cors";
 
-const corsMiddleware = cors({
+export const corsMiddleware = cors({
     origin: ["http://localhost:5173/"],
     credentials: true,
-    // method:['GET', 'PUT', 'POST']
-    // allowedHeaders: ['Content-Type', 'Authorization'],
+    methods:['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 })

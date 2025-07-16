@@ -30,7 +30,7 @@ export function authenticateSuppliers(req: Request, res: Response, next: NextFun
 
   try {
     const decoded = verifyToken(token);
-    (req as any).user = decoded as any;
+    (req as any).supplier = decoded as any;
     next();
   } catch {
     res.status(401).json({ message: "Invalid token" });
