@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "522a9f88-4586-4ce3-bc13-d015ab82059f",
+		"name": "Task Product",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25654751"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "qxq@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "@Asa123456",
+							"type": "text"
+						},
+						{
+							"key": "profile",
+							"type": "file",
+							"src": "/E:/Dumbways/foto/pikachu.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Supplier",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"nnn@gmail.com\",\r\n    \"password\" : \"@Asa123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Supplier",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"nnn@gmail.com\",\r\n    \"password\" : \"@Asa123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/suppliers/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"suppliers",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTI1NzI3NzAsImV4cCI6MTc1MjY1OTE3MH0.1hVX-l63bhsn7XuUapOcnTLoyACDmSZzuW5K8Kf9tYg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/auth/suppliers/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"suppliers",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile Sendiri",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/auth/products/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"products",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/auth/products/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
