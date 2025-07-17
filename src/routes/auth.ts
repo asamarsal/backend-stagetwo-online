@@ -176,7 +176,7 @@ router.get("/suppliers/products", authenticateSuppliers, async (req, res) => {
 });
 
 
-// router.post("/products/add", authenticateSuppliers, addProduct);
+router.post("/products/add", authenticateSuppliers, addProduct);
 // Ganti authenticateSuppliers dengan authenticate
 router.post("/products/add", limiter, authenticate, uploadProduct.single("photo"), addProduct, handleUploadError);
 
@@ -200,7 +200,7 @@ router.get("/deleted", authenticate, async (req, res) => {
     });
     
     res.json({ 
-      message: "Get deleted products success",
+      message: "Delete product success",
       products: deletedProducts 
     });
   } catch (err: any) {
